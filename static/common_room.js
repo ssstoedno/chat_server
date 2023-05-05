@@ -16,6 +16,23 @@ const activeUsersContainer = document.querySelector('#active-users .user-contain
 const logoutLink = document.querySelector('#logout-button');
 
 
+
+
+
+let username;
+fetch ('/get_username')
+  .then(response => response.json())
+  .then(data => {
+    username=data.username;
+  })
+  .catch(error => {
+    console.error('error getting username: ',error);
+  });
+
+
+
+
+
 // Event listener for submitting the message form
 messageForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -25,15 +42,26 @@ messageForm.addEventListener('submit', (event) => {
     messageInput.value = '';
     messageInput.focus();
   }
+  
 });
 
 // Function to add a new message to the messages container
 function addMessage(message) {
   console.log('New message:', message);
   const messageElement = document.createElement('div');
-  messageElement.classList.add('message');
-  messageElement.innerHTML = `<strong>${message.username}</strong>: ${message.message}`;
+  if (message.username==username){
+    messageElement.classList.add('my-message');
+    messageElement.innerHTML = `<div class="badge bg-primary text-wrap" style="width: 100;">
+    <p class="text-break" style="font-size:1.1rem;" >You:${message.message}</p></div>`;
+  }
+  else{
+    messageElement.classList.add('message');
+    messageElement.innerHTML = `<div class="badge bg-secondary text-wrap" style="width: 100;">
+    <p class="text-break" style="font-size:1.1rem;" >${message.username}:${message.message}</p></div>`;
+  }
   messagesContainer.appendChild(messageElement);
+  var xH = messagesContainer.scrollHeight; 
+  messagesContainer.scrollTo(0, xH);
 }
 
 // Function to add a new active user to the list

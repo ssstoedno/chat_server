@@ -4,7 +4,7 @@ from datetime import datetime
 import pytz
 import config
 import db_config
-from flask import Blueprint, flash,request,render_template,redirect, url_for,session
+from flask import Blueprint, flash, jsonify,request,render_template,redirect, url_for,session
 
 views=Blueprint(__name__,'views')
 
@@ -60,6 +60,9 @@ def leave():
     log_out = request.args.get('logout')
     return redirect(url_for('views.login',logout=[log_out]))
 
-
+@views.route('/get_username')
+def get_username():
+    username=session.get('user_id')
+    return jsonify({'username':username})
 
 #/path rest check if guy is in database . if he is give him the username and redirect to common room if not login
