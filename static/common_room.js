@@ -40,7 +40,7 @@ function addMessage(message) {
 function addUser(user) {
   const userElement = document.createElement('div');
   userElement.classList.add('user');
-  userElement.textContent = user;
+  userElement.textContent =user;
   activeUsersContainer.appendChild(userElement);
 }
 

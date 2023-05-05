@@ -52,9 +52,11 @@ def handle_message(data):
     expiry:datetime
     username = session.get('user_id')
     now = datetime.utcnow().replace(tzinfo=pytz.UTC) 
-    expiry = session['last_time_access'].replace(tzinfo=pytz.UTC) + timedelta(hours=10)
-    
-    session['last_time_access']=now
-    message = data['message']
-    emit('message', {'username': username, 'message': message}, room='common_room')
+    expiry = session['last_time_access'].replace(tzinfo=pytz.UTC) + config.session_time
+    if expiry<now:
+        emit('timed_out',username)
+    else:
+        session['last_time_access']=now
+        message = data['message']
+        emit('message', {'username': username, 'message': message}, room='common_room')
         
