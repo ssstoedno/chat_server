@@ -28,4 +28,4 @@ def check_session():
 
 
 if __name__=='__main__':
-    socket_handling.socketio.run(config.app,debug=True, host='0.0.0.0',port=9000)
+    socket_handling.socketio.run(config.app,debug=True, host='192.168.137.248',port=9000)

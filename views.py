@@ -14,20 +14,28 @@ views=Blueprint(__name__,'views')
 def process():
     username=request.form['username']
     password=request.form['password']
+    crr_ip=request.remote_addr
     now=datetime.utcnow().replace(tzinfo=pytz.UTC)
-    if db_config.check_username_exists(username) and db_config.password_correct(username,password):
-        session['user_id']=username
-        session['last_time_access']=now
-        session['logged_in']=True
-        flash("Login successful")
-        return redirect(url_for('views.common_room'))
+    if username=="" or password=="":
+        return redirect(url_for('views.login',no_char=['true']))
+    elif db_config.check_username_exists(username) and db_config.password_correct(username,password):
+        if db_config.is_logged(username):
+            return redirect(url_for('views.login',already_logged=['true']))
+        else:
+            session['user_id']=username
+            session['last_time_access']=now
+            session['logged_in']=True
+            #db_config.update_isactive(username,True)
+            db_config.update_ip(username,crr_ip)
+            flash("Login successful")
+            return redirect(url_for('views.common_room'))
     elif not db_config.check_username_exists(username):
-        db_config.add_user(username,password,now)
+        db_config.add_user(username,password,now,crr_ip)
         flash("Login successful")
         return redirect(url_for('views.common_room'))
     elif db_config.check_username_exists(username) and not db_config.password_correct(username,password):
         flash("Wrong pass")
-        return redirect(url_for('views.login'))
+        return redirect(url_for('views.login',wrong_pass=['true']))
     
 
 @views.route('/',methods=['GET','POST'])
@@ -47,7 +55,8 @@ def common_room():
 
 @views.route('/leave')
 def leave():
-    session.clear()
+    #db_config.update_isactive(session['user_id'],False)
+    session.clear() 
     log_out = request.args.get('logout')
     return redirect(url_for('views.login',logout=[log_out]))
 

@@ -14,12 +14,15 @@
           width: 100%;
           flex-direction: column;
         }
-      #logout-banner{
-     
+      #banner{
+        position:relative;
+        left: 50%;
+        transform: translateX(-50%);
       }
 
-      #form-id{
-        position:absolute;
+      #form-id{  
+        position:relative;
+        width:25%;
         top:50%;
         left:50%;
         transform:translate(-50%, -50%)
@@ -33,7 +36,7 @@
   <body>
     <div class="container">
     <div id="form-id">
-      <div id="logout-banner" class="badge text-bg-danger"></div>  
+      <div id="banner" class="badge text-bg-danger"></div>  
       <div><h1>Login</h1></div>
       
     
