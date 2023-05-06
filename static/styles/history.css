@@ -1,0 +1,45 @@
+html, body{
+    height: 100%;
+    width:100%;
+    scroll-behavior: smooth;
+} 
+  /* Main container */
+.container {
+display: flex;
+height: 100%;
+width: 100%;
+flex-direction: column;
+align-items: center;
+}
+
+/* Chat container */
+.chat-container {
+    display:block;
+    margin-top:30px;
+    margin-bottom:30px;
+    padding: 10px;
+    border: 1px solid black;
+    height: 100%;
+    width:60%;
+    border-radius: 40px;
+}
+
+#messages {
+    position:relative;
+    flex: 3;
+    flex-basis: 0;  
+    height: 100%;
+    border: 1px solid black;
+    overflow-y: auto;
+    border-radius: 40px;
+  
+  }
+  #nav{
+    width: 70px;
+  }
+  #title-my-messages{
+    text-align: center;
+    position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 0;
+  }

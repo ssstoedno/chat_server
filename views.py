@@ -65,4 +65,27 @@ def get_username():
     username=session.get('user_id')
     return jsonify({'username':username})
 
+
+@views.route('/messages', methods=['GET'])
+def get_messages():
+    # Get the timestamp or message ID from the last connection
+    last_timestamp = request.args.get('since')
+    if not last_timestamp:
+        last_timestamp = 0
+    
+    # Query the database for messages since the given timestamp or message ID
+    messages = db_config.db.session.query(db_config.Message).filter(db_config.Message.timestamp > last_timestamp).all()
+
+    # Create a list of message strings from the database records
+    message_list = [(message.sender,message.message,message.timestamp) for message in messages]
+    
+    # Return the messages as JSON
+    return jsonify({'messages': message_list})
 #/path rest check if guy is in database . if he is give him the username and redirect to common room if not login
+
+@views.route('/history')
+def history():
+    if not session['logged_in']:
+         return redirect(url_for('views.login'))
+    else:
+        return render_template('history.html')

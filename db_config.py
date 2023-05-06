@@ -1,3 +1,4 @@
+import pytz
 import config
 import os
 import sqlite3
@@ -26,22 +27,25 @@ class Users(db.Model):
         ip=db.Column(db.String(50))
         is_active=db.Column(db.Boolean,default=False, nullable=False)
 
-class Messages(db.Model):
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)  
     sender = db.Column(db.String(50), nullable=False)
-    recipient = db.Column(db.String(50), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     message = db.Column(db.Text, nullable=False)
-    __table_args__ = (
-        db.PrimaryKeyConstraint('sender', 'recipient', 'timestamp'),
-    )
 
 
 with config.app.app_context():
     db.create_all()
     deactivate_users=db.session.query(Users).filter_by(is_active=True).all()
+    all_messages=db.session.query(Message).all()
+    for message in all_messages:
+         db.session.delete(message)
+         db.session.commit()
     for user in deactivate_users:
         user.is_active=False
         db.session.commit()
+    
+         
      
 
 
@@ -93,6 +97,12 @@ def update_ip(username,crr_ip):
      user = db.session.query(Users).filter_by(username=username).first()
      user.ip=crr_ip
      db.session.commit()
+
+def add_message(username,message):
+     new_message = Message(sender=username,message=message)
+     db.session.add(new_message)
+     db.session.commit()
+
 #def update_time(username,now):
     #session['last_time_access']=now
     #user = db.session.query(Users).filter_by(username=username).first()
@@ -103,5 +113,3 @@ def update_ip(username,crr_ip):
     #user = db.session.query(Users).filter_by(username=username).first()
     #db.session.delete(user)
     #db.session.commit()
-
-

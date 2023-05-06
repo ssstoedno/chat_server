@@ -1,0 +1,17 @@
+{% extends "base_logged_in.html" %}
+
+  {%block title%} History of my messages {%endblock%}
+  {% block style %}<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/history.css') }}">{% endblock %}
+
+  {% block content %}
+  <div class="container">
+    <div class="chat-container">
+        <div class="h4" id="title-my-messages"><h>My messages</h></div>
+        <hr class="dashed">
+    </div>
+  </div>
+  <script src="../static/history.js"></script>
+  <script>
+    const backUrl = "{{ url_for('views.common_room', active=['true'])}}";
+  </script>
+  {% endblock %} 
