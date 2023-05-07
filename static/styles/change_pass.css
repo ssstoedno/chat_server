@@ -1,0 +1,33 @@
+
+html, body{
+    height: 100%;
+    width:100%; 
+}
+/* Main container */
+  .container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+  }
+#banner{
+  position:relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#form-id{  
+  position:relative;
+  width:25%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%)
+}
+
+#button-submit{
+  width:100%;
+}
+
+#nav{
+    width: 70px;
+  }

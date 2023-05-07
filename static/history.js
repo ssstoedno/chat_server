@@ -15,6 +15,7 @@ async function getUsername() {
 
 // Function to add a new message to the messages container
 async function addMessage(message) {
+    const chatContainer = document.getElementById('chat-container');
     const username = await getUsername();
     console.log('New message:', message);
     const messageElement = document.createElement('div');
@@ -26,21 +27,22 @@ async function addMessage(message) {
       <p class="text-break" style="font-size:1.1rem;" >You: ${message.message}</p>
       <small class="text-muted">${new Date(message.time).toLocaleTimeString()}</small></div>`;
     }
+    /*
     else{
       messageElement.classList.add('message');
       messageElement.innerHTML = `<div class="badge bg-secondary text-wrap" style="width: 35%; margin-left:calc(65% - 25px)">
       <p class="text-break" style="font-size:1.1rem;" >${message.username}: ${message.message}</p>
       <small class="text-muted" style="margin-left:calc(65% - 25px)">${new Date(message.time).toLocaleTimeString()}</small></div>`;
     }
-    /*
+    
     const timeElement = document.createElement('small');
     timeElement.innerText = new Date(message.time).toLocaleTimeString(); // use the 'time' property of the message object to display the time
     timeElement.classList.add('text-muted');
     messageElement.appendChild(timeElement);*/
   
-    messagesContainer.appendChild(messageElement);
-    var xH = messagesContainer.scrollHeight; 
-    messagesContainer.scrollTo(0, xH);
+    chatContainer.appendChild(messageElement);
+    var xH = chatContainer.scrollHeight; 
+    chatContainer.scrollTo(0, xH);
   }
 
 

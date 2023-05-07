@@ -28,20 +28,33 @@ def process():
             #db_config.update_isactive(username,True)
             db_config.update_ip(username,crr_ip)
             flash("Login successful")
-            return redirect(url_for('views.common_room'))
+            return redirect(url_for('views.common_room',active=['true']))
     elif not db_config.check_username_exists(username):
         db_config.add_user(username,password,now,crr_ip)
         flash("Login successful")
-        return redirect(url_for('views.common_room'))
+        return redirect(url_for('views.common_room',active=['true']))
     elif db_config.check_username_exists(username) and not db_config.password_correct(username,password):
         flash("Wrong pass")
         return redirect(url_for('views.login',wrong_pass=['true']))
     
+@views.route('/process_change_pass',methods=['GET','POST'])
+def process_change_pass():
+    new_pass=request.form['password']
+    user_id=session['user_id']
+    if new_pass=="":
+        return redirect(url_for('views.change_pass',active=['true'],no_char=['true']))
+    elif db_config.password_correct(user_id,new_pass):
+        return redirect(url_for('views.change_pass',active=['true'],same=['true']))
+    else:
+        db_config.change_pass(user_id, new_pass)
+        return redirect(url_for('views.change_pass',active=['true'],success=['true']))
+
+
 
 @views.route('/',methods=['GET','POST'])
 def login():
     if session['logged_in']:
-        return redirect(url_for('views.common_room'))
+        return redirect(url_for('views.common_room', active=['true']))
     else:
         return render_template('login.html')
 
@@ -89,3 +102,12 @@ def history():
          return redirect(url_for('views.login'))
     else:
         return render_template('history.html')
+    
+
+@views.route('/change_pass')
+def change_pass():
+    if not session['logged_in']:
+         return redirect(url_for('views.login'))
+    else:
+        return render_template('change_pass.html')
+    

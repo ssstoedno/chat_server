@@ -12,17 +12,19 @@ async function getUsername() {
 
 // Enable navigation prompt
  window.onbeforeunload = function() {
+  socket.emit('leave');
+  window.location.href = leaveUrl;
+  };
+
+function preventBack(){
   const queryParams = new URLSearchParams(window.location.search);
   const active = queryParams.get('active');
   if (active!='true'){
-    socket.emit('leave');
-    window.location.href = leaveUrl;
+    window.history.forward();
   }
-  
-  };
-function preventBack(){window.history.forward();}
-  setTimeout("preventBack()", 0);
-  window.onunload=function(){null};
+}
+setTimeout("preventBack()", 0);
+window.onunload=function(){null};
 
 // JavaScript code for the chat room
 const socket = io.connect();

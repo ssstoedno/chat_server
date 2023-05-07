@@ -103,6 +103,16 @@ def add_message(username,message):
      db.session.add(new_message)
      db.session.commit()
 
+def change_pass(username,new_pass):
+     user=db.session.query(Users).filter_by(username=username).first()
+     user.password=new_pass
+     db.session.commit()
+
+def change_user(username,new_user):
+     user=db.session.query(Users).filter_by(username=username).first()
+     user.username=new_user
+     db.session.commit()
+
 #def update_time(username,now):
     #session['last_time_access']=now
     #user = db.session.query(Users).filter_by(username=username).first()
