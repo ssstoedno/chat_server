@@ -11,7 +11,7 @@ async function getUsername() {
 // when client navigate away from page
  window.onbeforeunload = function() {
   socket.emit('leave');
-  //window.location.href = leaveUrl;
+  window.location.href = leaveUrl;
   };
 
 //prevent returning when logged out

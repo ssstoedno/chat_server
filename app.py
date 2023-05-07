@@ -1,9 +1,9 @@
 from datetime import datetime
 from flask import session
 import pytz
-from views import views
+from app.views import views
 import config
-import socket_handling
+import app.socket_handling as socket_handling
 
 config.app.register_blueprint(views,url_prefix="/")
 

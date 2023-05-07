@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import request, session
 import pytz
 import config
-import db_config
+import app.db_config as db_config
 from flask_socketio import SocketIO, emit, join_room, leave_room
 
 

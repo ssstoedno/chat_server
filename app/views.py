@@ -1,10 +1,9 @@
 from datetime import datetime
 import pytz
-import db_config
+import app.db_config as db_config
 from flask import Blueprint, flash, jsonify,request,render_template,redirect, url_for,session
 
-views=Blueprint(__name__,'views')
-
+views=Blueprint('views',__name__)
 #process login form
 @views.route('/process',methods=['GET','POST'])
 def process():
@@ -66,16 +65,10 @@ def common_room():
 @views.route('/leave')
 def leave():
     #db_config.update_isactive(session['user_id'],False)
-    #session.clear() 
+    session.clear() 
     log_out = request.args.get('logout')
     return redirect(url_for('views.login',logout=[log_out]))
 
-@views.route('/logout')
-def logout():
-    #db_config.update_isactive(session['user_id'],False)
-    session.clear() 
-    #log_out = request.args.get('logout')
-    return redirect(url_for('views.login',logout=['true']))
 
 @views.route('/get_username')
 def get_username():
@@ -99,15 +92,23 @@ def get_messages():
 #my message hisory
 @views.route('/history')
 def history():
-    if not session['logged_in']:
-         return redirect(url_for('views.login'))
+    username=session.get('user_id')
+    if username:
+        if db_config.is_logged(username):
+            return redirect(url_for('views.login'))
+        else:
+            return render_template('history.html')
     else:
-        return render_template('history.html')
+        return redirect(url_for('views.login'))
     
 
 @views.route('/change_pass')
 def change_pass():
-    if not session['logged_in']:
-         return redirect(url_for('views.login'))
+    username=session.get('user_id')
+    if username:
+        if db_config.is_logged(username):
+            return redirect(url_for('views.login'))
+        else:
+            return render_template('change_pass.html')
     else:
-        return render_template('change_pass.html')
+        return redirect(url_for('views.login'))
