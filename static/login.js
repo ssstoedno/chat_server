@@ -1,6 +1,6 @@
 const urlParams = new URLSearchParams(window.location.search);
-const logoutParam = urlParams.get('logout');
-if (logoutParam === 'true') {
+param = urlParams.get('logout');
+if (param === 'true') {
     function showLogoutBanner() {
         const logoutBanner = document.querySelector('#banner');
         logoutBanner.textContent = 'You have been logged out.';
@@ -11,8 +11,8 @@ if (logoutParam === 'true') {
   showLogoutBanner();
 }
 
-const wrong_passParam=urlParams.get('wrong_pass')
-if (wrong_passParam === 'true') {
+param=urlParams.get('wrong_pass')
+if (param === 'true') {
   function showWrongPassBanner() {
       const wrongpassBanner= document.querySelector('#banner');
       wrongpassBanner.textContent = 'Wrong password !';
@@ -23,8 +23,8 @@ if (wrong_passParam === 'true') {
 showWrongPassBanner();
 }
 
-const already_loggedParam=urlParams.get('already_logged')
-if (already_loggedParam === 'true') {
+param=urlParams.get('already_logged')
+if (param === 'true') {
   function showAlreadyLoggedBanner() {
       const alreadyloggedBanner= document.querySelector('#banner');
       alreadyloggedBanner.textContent = 'Already Logged !';
@@ -35,8 +35,8 @@ if (already_loggedParam === 'true') {
     showAlreadyLoggedBanner();
 }
 
-const no_charParam=urlParams.get('no_char')
-if (no_charParam === 'true') {
+param=urlParams.get('no_char')
+if (param === 'true') {
   function noCharBanner() {
       const nocharBanner= document.querySelector('#banner');
       nocharBanner.textContent = 'At least one character for password and username !';

@@ -1,3 +1,14 @@
+//prevent returning when logged out
+function preventBack(){
+  const queryParams = new URLSearchParams(window.location.search);
+  const active = queryParams.get('active');
+  if (active!='true'){
+    window.history.forward();
+  }
+}
+setTimeout("preventBack()", 0);
+window.onunload=function(){null};
+
 const urlParams = new URLSearchParams(window.location.search);
 const no_charParam=urlParams.get('no_char')
 if (no_charParam === 'true') {

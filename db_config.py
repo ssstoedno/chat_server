@@ -1,4 +1,3 @@
-import pytz
 import config
 import os
 import sqlite3
@@ -6,11 +5,6 @@ import sqlite3
 from flask import session
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-
-#if os.path.exists('server.db'):
-    #delete the file if it exists
-    #os.remove('server.db')
 
 
 # connect to the database

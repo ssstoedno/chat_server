@@ -1,23 +1,19 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from flask import request, session
 import pytz
 import config
 import db_config
-from flask_socketio import SocketIO, send, emit, join_room, leave_room
-
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 
 active_users = []
-messages={}
 socketio = SocketIO(config.app,async_mode='eventlet')
-
-
 
 
 @socketio.on('join')
 def handle_join2(data):
     username=session.get('user_id')
-    if username and db_config.is_logged(username):
+    if (username and db_config.is_logged(username)) or not username:
         emit('timed_out', username)
     else:
         #db_config.update_isactive(username,True)
@@ -28,12 +24,9 @@ def handle_join2(data):
             db_config.update_isactive(username,True)
         join_room(data['room'])
         print(f"{session.get('user_id')} joined {data['room']}")
-        emit('user joined', {'username': username}, broadcast=True)
+        #emit('user joined', {'username': username}, broadcast=True)
         emit('update active users', {'users': active_users}, broadcast=True) 
     
-
-
-
 @socketio.on('leave')
 def handle_leave():
     username=session.get('user_id')
@@ -43,18 +36,17 @@ def handle_leave():
         if db_config.is_logged(username) and db_config.logged_from_same_ip(username,crr_ip):
             db_config.update_isactive(session['user_id'],False)
             active_users.remove(username)
-    emit('timed_out', username)
+    #emit('timed_out', username)
     emit('update active users', {'users': active_users}, broadcast=True)
 
 @socketio.on('message')
 def handle_message(data):
-    #now:datetime
-    #expiry:datetime
     username = session.get('user_id')
     now = datetime.utcnow().replace(tzinfo=pytz.UTC) 
     expiry = session['last_time_access'].replace(tzinfo=pytz.UTC) + config.session_time
     if expiry<now:
         emit('timed_out',username)
+        pass
     else:
         session['last_time_access']=now
         message = data['message']

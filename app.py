@@ -1,5 +1,4 @@
-from datetime import datetime, timedelta
-import uuid
+from datetime import datetime
 from flask import session
 import pytz
 from views import views
@@ -8,6 +7,7 @@ import socket_handling
 
 config.app.register_blueprint(views,url_prefix="/")
 
+#before every request
 @config.app.before_request
 def check_session():
     now = datetime.utcnow().replace(tzinfo=pytz.UTC)
@@ -28,5 +28,7 @@ def check_session():
 
 
 if __name__=='__main__':
-    socket_handling.socketio.run(config.app,debug=True, host='192.168.137.170',port=9000)
+    socket_handling.socketio.run(config.app,debug=True, host='0.0.0.0',port=9000)
+
+    #clear ips in app and server.db
 
