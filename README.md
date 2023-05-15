@@ -1,9 +1,7 @@
 # chat_server using python(flask), html, javascript and handling the database operations using flask-sqlalchemy
 
 
-0.1. create virt env with pipenv
-
-0.2. pipenv sync for required packages install
+0.1. pipenv sync --- for virtenv and required packages install
 
 
 1. Start from app.py
