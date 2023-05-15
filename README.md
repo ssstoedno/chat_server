@@ -1,4 +1,4 @@
-# chat_server using python(flask), html(css), javascript and handling the database operations using flask-sqlalchemy
+# chat_server using python(flask), html, javascript and handling the database operations using flask-sqlalchemy
 
 
 0.1. create virt env with pipenv
